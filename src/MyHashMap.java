@@ -42,7 +42,7 @@ public class MyHashMap<K,V> {
             previous = current; // текущий сохраняется как предыдущий
             current = current.next; //переход к следующему
 
-            previous.next = newNode; //добавление в конец списка
+            previous.next = newNode; //добавление новой ноды в конец списка
         }
     }
         public V get (K key){
@@ -63,7 +63,7 @@ public class MyHashMap<K,V> {
 
             while (current != null) {
                 if (current.key.equals(key)) {
-                    if (previous != null) {
+                    if (previous == null) {
                         buckets[index] = current.next;
                     } else {
                         previous.next = current.next;
@@ -76,7 +76,7 @@ public class MyHashMap<K,V> {
             return null;
         }
 
-        private int getIndex (K key){
+        private int getIndex (K key){ //рассчитываем индекс
             return Math.abs(key.hashCode() % BUCKET_COUNT);
         }
 
@@ -102,7 +102,7 @@ public class MyHashMap<K,V> {
 
             @Override
             public String toString() {
-                return "\n" + key + ":" + value;
+                return "\n" + key + ": " + value;
             }
         }
 
@@ -121,18 +121,19 @@ public class MyHashMap<K,V> {
             System.out.println("ФИО: " + map.get("1475_789987"));
 
             map.put("1475_789987", "Джек Лондон");
+            System.out.println();
             System.out.println("Новые ФИО: " + map.get("1475_789987"));
-
+            System.out.println();
             System.out.println("_______________Список писателей_________________");
             System.out.println(map.entrySet()); // выводим новый список после замены
 
-            map.remove("7898_789654");
+            map.remove("7898_789654"); //удаление элемента
+            System.out.println();
             System.out.println("После удаления: " + getValueOrDefault(map.get("7898_789654")));
 
         }
 
-        private static String getValueOrDefault (String value){
+        private static String getValueOrDefault (String value){ //дополнительный метод для замены дефолтного  null на "удалено"
             return value != null ? value : "Удалено";
         }
     }
-}
